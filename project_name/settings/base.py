@@ -15,19 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'lfe%2q%8&fd0vs9i=md-6*7xdww0k=3)*8ryhw0@9xezgcn6j='
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -70,18 +57,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -100,13 +75,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True
 
@@ -114,15 +88,35 @@ USE_L10N = True
 
 USE_TZ = True
 
+# MEDIA AND STATIC SETTINGS
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# https://docs.djangoproject.com/en/2.0/ref/settings/#media-root
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'public/media')
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
+# URL that handles the media served from MEDIA_ROOT. Use a trailing slash.
+# https://docs.djangoproject.com/en/2.0/ref/settings/#media-url
+MEDIA_URL = '/media/'
 
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# https://docs.djangoproject.com/en/2.0/ref/settings/#static-root
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public/static')
+
+# URL prefix for static files.
+# https://docs.djangoproject.com/en/2.0/ref/settings/#static-url
 STATIC_URL = '/static/'
 
+# Additional locations of static files
+# https://docs.djangoproject.com/en/2.0/ref/settings/#staticfiles-dirs
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # Custom user model
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# Login urls
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
