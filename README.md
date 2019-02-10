@@ -16,7 +16,7 @@ To use this project, follow these steps:
 
 Create a new Django project:
 
-    $ django-admin startproject --template=https://github.com/marvink/django_template/archive/master.zip new_project_name
+    $ django-admin startproject --template https://github.com/marvink87/django_template/archive/master.zip new_project_name
 
 
 ### Settings ###
