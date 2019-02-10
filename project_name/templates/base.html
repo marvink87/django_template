@@ -1,13 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Home{% endblock %}</title>
-</head>
-<body>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-</body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    {% load static %}
+    <link href="{% static "css/custom.css" %}" rel="stylesheet">
+
+    
+    {% block style %}<style type="text/css"></style>{% endblock %}
+
+    <title>{% block title %}Hello, world!{% endblock %}</title>
+
+    </head>
+    <body>
+
+        <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top p-0">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Marvin Kuurstra</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home {% if request.path == '/' %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/cmdb" id="dropdownCmdb" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CMDB {% if '/cmdb/' in request.path %}<span class="sr-only">(current)</span>{% endif %}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownCmdb">
+                            <a class="dropdown-item" href="#">Actions</a>
+                            <a class="dropdown-item" href="#">Reports</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/configbuilder/">Configbuilder {% if '/configbuilder/' in request.path %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="btn btn-outline-primary mx-2" href="{% url 'logout' %}">Profile</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-secondary mx-2" href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                    <form class="form-inline my-2 my-md-0" method="post" action="{% url 'login' %}">
+                      {% csrf_token %}>
+                      <div class="form-group">
+                          <label for="id_username" class="sr-only">Username</label>
+                          <input type="text" name="username" id="id_username" class="form-control mr-sm-2" placeholder="Username" required>
+                      </div>
+                      <div class="form-group">
+                          <label for="id_password" class="sr-only">Password</label>
+                          <input type="password" name= "password" id="id_password" class="form-control mr-sm-2" placeholder="Password" required>
+                      </div>
+                      <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Sign in</button>
+                  </form>
+                  {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+              <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    {% block sidebar %}{% endblock sidebar %}
+                </nav>
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                    <div class="pb-2 mb-3 border-bottom">
+                        <h1 id="headline" class="h2">{% block headline %}Hello, world!{% endblock %}</h1>
+                    </div>
+                    {% block content %}<h1>Hello, world!</h1>{% endblock %}
+                </main>
+              </div>
+            </div>
+
+
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        {# // <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+        {% block scripts %}{% endblock %}
+  </body>
 </html>

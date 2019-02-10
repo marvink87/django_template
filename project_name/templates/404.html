@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Error 404{% endblock %}
+
+{% block content %}
+    {% ifequal exception "Resolver404" %} 
+        {{request_path}} not found
+    {% else %}
+        Error: {{exception}}
+    {% endifequal %}
+{% endblock content %}
