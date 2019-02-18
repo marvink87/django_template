@@ -5,6 +5,7 @@ Personal template for Django
 
 - Custom user model
 - Seperate settings for production and development
+- Bootstrap 4 built in
 
 ## How to Use
 
