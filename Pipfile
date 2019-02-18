@@ -7,7 +7,7 @@ verify_ssl = true
 django-debug-toolbar = "*"
 
 [packages]
-django = "*"
+django = "==2.1.7"
 
 [requires]
 python_version = "3.7"
