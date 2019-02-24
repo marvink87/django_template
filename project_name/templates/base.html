@@ -2,7 +2,7 @@
 
 {% block navbar %}
 <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Project name</a>
+    <a class="navbar-brand col-md-2 d-none d-md-block" href="/">Project name</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -13,39 +13,29 @@
                 <a class="nav-link" href="/">Home{% if request.path == '/' %}
                     <span class="sr-only">(current)</span>{% endif %}</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="/menu" id="dropdownCmdb" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Menu {% if '/menu/' in request.path %}
-                    <span class="sr-only">(current)</span>{% endif %}</a>
-                <div class="dropdown-menu" aria-labelledby="dropdownCmdb">
-                    <a class="dropdown-item" href="#">Link 1</a>
-                    <a class="dropdown-item" href="#">Link 2</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/link3">Link 3{% if '/link3/' in request.path %}
-                    <span class="sr-only">(current)</span>{% endif %}</a>
-            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/menu" id="dropdownCmdb" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Menu {% if '/menu/' in request.path %}
+                        <span class="sr-only">(current)</span>{% endif %}</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownCmdb">
+                        <a class="dropdown-item" href="#">Link 1</a>
+                        <a class="dropdown-item" href="#">Link 2</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/link3">Link 3{% if '/link3/' in request.path %}
+                        <span class="sr-only">(current)</span>{% endif %}</a>
+                </li>
+            {% endif %}
         </ul>
         <ul class="navbar-nav">
             {% if user.is_authenticated %}
-            <li class="nav-item"><a class="btn btn-outline-primary mx-2" href="{% url 'profile' %}">Profile</a></li>
-            <li class="nav-item"><a class="btn btn-outline-secondary mx-2" href="{% url 'logout' %}">Logout</a></li>
+                <li class="nav-item"><a class="btn btn-outline-primary mx-2" href="{% url 'profile' %}">Profile</a></li>
+                <li class="nav-item"><a class="btn btn-outline-secondary mx-2" href="{% url 'logout' %}">Logout</a></li>
             {% else %}
-            <form class="form-inline my-2 my-md-0" method="post" action="{% url 'login' %}">
-                {% csrf_token %}>
-                <div class="form-group">
-                    <label for="id_username" class="sr-only">Username</label>
-                    <input type="text" name="username" id="id_username" class="form-control mr-sm-2"
-                           placeholder="Username" required>
-                </div>
-                <div class="form-group">
-                    <label for="id_password" class="sr-only">Password</label>
-                    <input type="password" name="password" id="id_password" class="form-control mr-sm-2"
-                           placeholder="Password" required>
-                </div>
-                <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Sign in</button>
-            </form>
+                <li class="nav-item"><a class="btn btn-outline-primary mx-2" href="{% url 'signup' %}">Sign Up</a></li>
+                <li class="nav-item"><a class="btn btn-outline-secondary mx-2" href="{% url 'login' %}">Sign In</a></li>
             {% endif %}
         </ul>
     </div>

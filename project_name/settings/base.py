@@ -21,13 +21,14 @@ PROJECT_ROOT = os.path.dirname(BASE_DIR)
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users.apps.UsersConfig'
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,9 @@ STATICFILES_DIRS = (
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # Login urls
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+# LOGOUT_REDIRECT_URL = 'home'
 
+# Crispy settings
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
