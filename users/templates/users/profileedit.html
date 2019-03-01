@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}Edit Profile{% endblock %}
 
 {% load crispy_forms_tags %}
 
@@ -9,6 +9,6 @@
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">{% trans 'Sign up' %}</button>
+        <a href="{% url 'updateprofile' %}"><button type="submit" class="btn btn-primary">{% trans 'Update' %}</button></a>
     </form>
 {% endblock %}

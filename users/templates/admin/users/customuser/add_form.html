@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block form_top %}
+    {% if not is_popup %}
+        <p>{% trans "Fill in fields to create a new user." %} <sup>Bold is required</sup></p>
+    {% else %}
+        <p>{% trans "fill in fields." %} <sup>Bold is required</sup></p>
+    {% endif %}
+{% endblock %}
