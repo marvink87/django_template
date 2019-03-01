@@ -9,8 +9,11 @@
     <form method="post">
         {% csrf_token %}
         {{ form|crispy}}
-        <button type="submit">Login</button>
+        <button type="submit" class="btn btn-primary">{% trans 'Login' %}</button>
+        <a href="{% url 'password_reset' %}"><button type="button" class="btn btn-link">{% trans 'Reset Password' %}</button>
     </form>
-    <p><a href="{% url 'password_reset' %}">{% trans 'Reset Password' %}</a></p>
+
+
+
 
 {% endblock %}
