@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load getattr %}
+
+{% block title %}{{model_name}} list{% endblock %}
+
+{% block style %}
+    <style type="text/css">
+        .popover{
+            max-width: 100%; /* Max Width of the popover (depending on the container!) */
+        }
+    </style>
+{% endblock style %}
+
+
+{% block content %}
+    <div class="table-responsive">
+        <th scope="col"><input type="text" class="form-control mb-1" id="inputFilterAll" placeholder="Filter on all fields"></th>
+        <table class="table table-striped table-sm" id='resultTable'>
+            <thead>
+                <tr>
+                    {% for _ in fields %}
+                        <th scope="col"><input type="text" class="form-control" placeholder="Filter"></th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for field in fields %}
+                        <th scope="col">{{field.verbose_name|capfirst }}</th>
+                    {% endfor %}
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rule in model %}
+                        {% for field in fields %}
+                            {% if forloop.first %}
+                                <tr id="row_{{rule|getattr:field.name}}">
+                                <th scope="row" class='value'>{{rule|getattr:field.name}}</th>
+                            {% else %}
+                                <td class='value'>
+                                    {{rule|getattr:field.name}}
+                                </td> 
+                            {% endif %}
+                        {% endfor %}
+                        <td>
+                            <a class="btn btn-primary" href='/{{ app_name }}/update/{{model_name}}/{{rule.pk}}'>Edit</a>
+                            <a class="btn btn-danger" href='/{{ app_name }}/delete/{{model_name}}/{{rule.pk}}/?next={{ request.get_full_path  }}'>Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
+    </div>
+
+
+
+{% if model.has_other_pages %}
+    <nav aria-label="navigation" class="p-3">
+    <ul class="pagination">
+        {% if model.has_previous %}
+            <li class="page-item">
+                <a href="?page={{ model.previous_page_number }}"
+                   class="page-link previous">&lsaquo;&lsaquo; {% trans "Previous" %}</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link previous">&lsaquo;&lsaquo; {% trans "Previous" %}</span>
+            </li>
+        {% endif %}
+        {% for page in model.paginator.page_range %}
+            {% if page %}
+                {% ifequal page model.number %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page }}</span>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a href="?page={{ page }}" class="page-link">{{ page }}</a>
+                    </li>
+                {% endifequal %}
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">. . .</span></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if model.has_next %}
+            <li class="page-item">
+                <a href="?page={{ model.next_page_number }}"
+                   class="page-link previous">›› {% trans "Next" %}</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link next">›› {% trans "Next" %}</span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock content %}
+
+
+
+{% block scripts %}
+    <script>
+        function filterTable(event) {
+            var filter = event.target.value.toUpperCase();
+            var rows = document.querySelector(event.target.tableContent).rows;
+            
+            for (var row = 0; row < rows.length; row++) {
+                var firstFilterStatus = rows[row].getAttribute('secondFilter')
+                if (firstFilterStatus == 'doNotDisplay') {
+                    continue;
+                }
+                var display = 0;
+                for (var x = 0; x < rows[row].cells.length; x++) {
+                    if (rows[row].cells[x].textContent.toUpperCase().indexOf(filter) > -1) {
+                        display = 1;
+                    }      
+                }
+                if (display == 1 ) {
+                  rows[row].style.display = "";
+                  rows[row].setAttribute("firstFilter", 'display');
+                } else {
+                  rows[row].style.display = "none";
+                  rows[row].setAttribute("firstFilter", 'doNotDisplay');
+                }
+            }
+        }
+
+        function filterColumns(event) {
+            var allInputs = document.querySelectorAll(event.target.allInputs)
+            var rows = document.querySelector(event.target.tableContent).rows;
+
+            // document.getElementById("headline").innerHTML = test[0].value.toUpperCase();
+            for (var row = 0; row < rows.length; row++) {
+                var firstFilterStatus = rows[row].getAttribute('firstFilter')
+                if (firstFilterStatus == 'doNotDisplay') {
+                    continue;
+                }
+                var display = 0;
+                var numberofFilters = 0;
+                for (var i = 0; i < allInputs.length; i++) {
+                    var filter = allInputs[i].value.toUpperCase();
+                    if (filter == "") {
+                        continue;
+                    } else if (rows[row].cells[i].textContent.toUpperCase().indexOf(filter) > -1) {
+                        display++;
+                    }
+                    numberofFilters++
+                }
+                if (display == numberofFilters ) {
+                  rows[row].style.display = "";
+                  rows[row].setAttribute("secondFilter", 'display');
+                } else {
+                  rows[row].style.display = "none";
+                  rows[row].setAttribute("secondFilter", 'doNotDisplay');
+                }
+            }
+        }
+
+    document.querySelector('#inputFilterAll').addEventListener('keyup', filterTable, false);
+    document.querySelector('#inputFilterAll').tableContent = "#resultTable tbody";
+
+    allFilters = document.querySelectorAll('thead input[type=text]')
+    for (var i = 0; i < allFilters.length; i++) {
+        allFilters[i].addEventListener('keyup', filterColumns, false);
+        allFilters[i].allInputs = 'thead input[type=text]'
+        allFilters[i].tableContent = "#resultTable tbody";
+    }
+    </script>
+{% endblock scripts %}

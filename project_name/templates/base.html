@@ -1,59 +1,63 @@
 {% extends 'superbase.html' %}
 
 {% block navbar %}
-<nav class="navbar navbar-expand navbar-dark bg-dark sticky-top p-0">
-    <a class="navbar-brand col-md-2 d-none d-md-block" href="/">Project name</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home{% if request.path == '/' %}
-                    <span class="sr-only">(current)</span>{% endif %}</a>
-            </li>
-            {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="/menu" id="dropdownCmdb" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Menu {% if '/menu/' in request.path %}
-                        <span class="sr-only">(current)</span>{% endif %}</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownCmdb">
-                        <a class="dropdown-item" href="#">Link 1</a>
-                        <a class="dropdown-item" href="#">Link 2</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/link3">Link 3{% if '/link3/' in request.path %}
+    <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top p-0">
+        <a class="navbar-brand col-md-2 d-none d-md-block" href="/">Project name</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home{% if request.path == '/' %}
                         <span class="sr-only">(current)</span>{% endif %}</a>
                 </li>
-            {% endif %}
-        </ul>
-        <ul class="navbar-nav">
-            {% if user.is_authenticated %}
-                <li class="nav-item"><a class="btn btn-outline-primary mx-2" href="{% url 'profile' %}">Profile</a></li>
-                <li class="nav-item"><a class="btn btn-outline-secondary mx-2" href="{% url 'logout' %}">Sign out</a></li>
-            {% else %}
-                <li class="nav-item"><a class="btn btn-outline-primary mx-2" href="{% url 'signup' %}">Sign Up</a></li>
-                <li class="nav-item"><a class="btn btn-outline-secondary mx-2" href="{% url 'login' %}">Log In</a></li>
-            {% endif %}
-        </ul>
-    </div>
-</nav>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/menu" id="dropdownCmdb" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">Menu {% if '/menu/' in request.path %}
+                            <span class="sr-only">(current)</span>{% endif %}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownCmdb">
+                            <a class="dropdown-item" href="#">Link 1</a>
+                            <a class="dropdown-item" href="#">Link 2</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/link3">Link 3{% if '/link3/' in request.path %}
+                            <span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="btn btn-outline-primary mx-2" href="{% url 'profile' %}">Profile</a>
+                    </li>
+                    <li class="nav-item"><a class="btn btn-outline-secondary mx-2" href="{% url 'logout' %}">Sign
+                        out</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="btn btn-outline-primary mx-2" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                    <li class="nav-item"><a class="btn btn-outline-secondary mx-2" href="{% url 'login' %}">Log In</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 {% endblock %}
 
 {% block main %}
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            {% block sidebar %}{% endblock sidebar %}
-        </nav>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <div class="pb-2 mb-3 border-bottom">
-                <h1 id="headline" class="h2">{% block title %}Hello, world!{% endblock %}</h1>
-            </div>
-            {% block content %}<h1>Hello, world!</h1>{% endblock %}
-        </main>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                {% block sidebar %}{% endblock sidebar %}
+            </nav>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <div class="pb-2 mb-3 border-bottom">
+                    <h1 id="headline" class="h2">{% block title %}Hello, world!{% endblock %}</h1>
+                </div>
+                {% block content %}<h1>Hello, world!</h1>{% endblock %}
+            </main>
+        </div>
     </div>
-</div>
 {% endblock %}

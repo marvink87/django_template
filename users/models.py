@@ -1,6 +1,7 @@
 from django.contrib.auth.models import (
     AbstractUser,
-    BaseUserManager
+    BaseUserManager,
+    PermissionsMixin
 )
 from django.db import models
 
@@ -13,21 +14,14 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("Users must have a password")
 
         user_obj = self.model(
-            email = self.normalize_email(email)
+            email=self.normalize_email(email)
         )
+
         user_obj.set_password(password)
         user_obj.staff = is_staff
         user_obj.admin = is_admin
         user_obj.is_active = is_active
         user_obj.save(using=self._db)
-        return user_obj
-
-    def create_staffuser(self, email, password=None):
-        user_obj = self.create_user(
-            email,
-            password=password,
-            is_staff=True
-        )
         return user_obj
 
     def create_superuser(self, email, password=None):
@@ -40,7 +34,7 @@ class CustomUserManager(BaseUserManager):
         return user_obj
 
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractUser, PermissionsMixin):
     # add additional fields in here
     email = models.EmailField(max_length=255, unique=True, blank=False, verbose_name='Email address')
     first_name = models.CharField(max_length=50, blank=False)
